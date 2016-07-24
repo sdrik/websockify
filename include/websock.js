@@ -121,6 +121,15 @@ function rQshiftStr(len) {
     rQi += len;
     return String.fromCharCode.apply(null, arr);
 }
+function rQshiftUtf8Str(len) {
+    if (typeof(len) === 'undefined') { len = rQlen(); }
+    var arr = rQ.slice(rQi, rQi + len);
+    rQi += len;
+    var i, str = '';
+    for (i = 0; i < arr.length; i++)
+        str += '%' + ('0' + arr[i].toString(16)).slice(-2);
+    return decodeURIComponent(str);
+}
 function rQshiftBytes(len) {
     if (typeof(len) === 'undefined') { len = rQlen(); }
     rQi += len;
@@ -402,6 +411,7 @@ function constructor() {
     api.rQshift16    = rQshift16;
     api.rQshift32    = rQshift32;
     api.rQshiftStr   = rQshiftStr;
+    api.rQshiftUtf8Str = rQshiftUtf8Str;
     api.rQshiftBytes = rQshiftBytes;
     api.rQslice      = rQslice;
     api.rQwait       = rQwait;
